@@ -4,29 +4,81 @@ import Navbar from './components/Navbar.jsx'
 import Banner from './components/Banner.jsx'
 import CustomerTickets from './components/CustomerTickets.jsx'
 import { ticketsData } from './data/ticketsData.jsx'
+import ResolvedList from './components/ResolvedList.jsx'
+import TaskStatus from './components/TaskStatus.jsx';
 import './App.css'
 
 function App() {
-  const [tickets] = useState(ticketsData);
- const [inProgressCount, setInProgressCount] = useState(0);
-  const [resolvedCount] = useState(0);
+  const [tickets, setTickets] = useState(ticketsData);
+  const [taskStatusList, setTaskStatusList] = useState([]);
+  const [resolvedTasks, setResolvedTasks] = useState([]);
+  const [inProgressCount, setInProgressCount] = useState(0); 
+  const [resolvedCount, setResolvedCount] = useState(0); 
 
-   const handleAddToTaskStatus = (ticket) => {
-    alert(`Added "${ticket.title}" to Task Status!`);
-    setInProgressCount(inProgressCount + 1);
+  const handleAddToTaskStatus = (ticket) => {
+    const isAlreadyAdded = taskStatusList.some(task => task.id === ticket.id);
+    
+    if (!isAlreadyAdded) {
+      setTaskStatusList([...taskStatusList, ticket]);
+      setInProgressCount(inProgressCount + 1);
+      alert(`Added "${ticket.title}" to Task Status!`);
+    } else {
+      alert(`"${ticket.title}" is already in Task Status!`);
+    }
+  };
+
+  const handleComplete = (task) => {
+    const updatedTaskStatus = taskStatusList.filter(t => t.id !== task.id);
+    setTaskStatusList(updatedTaskStatus);
+    
+    setResolvedTasks([...resolvedTasks, task]);
+    
+    const updatedTickets = tickets.filter(t => t.id !== task.id);
+    setTickets(updatedTickets);
+    
+    setInProgressCount(inProgressCount - 1);
+    setResolvedCount(resolvedCount + 1);
+    
+    alert(`"${task.title}" has been completed!`);
   };
 
   return (
-    <>
-     
-      <div>
-        <Navbar/>
-        <Banner inProgressCount={inProgressCount} resolvedCount={resolvedCount} />
-         <CustomerTickets tickets={tickets} onAddToTaskStatus={handleAddToTaskStatus} />
-      </div>
+    <div>
+      <Navbar />
+      <Banner inProgressCount={inProgressCount} resolvedCount={resolvedCount} />
+      
+      <div className="bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <div className="lg:col-span-2">
+              <ErrorBoundary fallback={<div role="alert">Unable to load customer tickets.</div>}>
+                <CustomerTickets 
+                  tickets={tickets} 
+                  onAddToTaskStatus={handleAddToTaskStatus} 
+                />
+              </ErrorBoundary>
+            </div>
 
-    </>
-  )
+            <div className="lg:col-span-1">
+              <TaskStatus tasks={taskStatusList} onComplete={handleComplete} />
+              <ResolvedList resolvedTasks={resolvedTasks} />
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
+
+function ErrorBoundary({ children, fallback }) {
+  try {
+    return children;
+  } catch {
+    return fallback || <div role="alert">Something went wrong.</div>;
+  }
+}
+
 
 export default App;

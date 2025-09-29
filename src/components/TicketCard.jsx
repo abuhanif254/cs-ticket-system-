@@ -1,5 +1,6 @@
 const TicketCard = ({ ticket, onAddToTaskStatus }) => {
-  // Function to get priority badge color
+  
+    
   const getPriorityColor = (priority) => {
     switch (priority) {
       case 'HIGH PRIORITY':
@@ -13,7 +14,8 @@ const TicketCard = ({ ticket, onAddToTaskStatus }) => {
     }
   };
 
-  // Function to get status badge color
+  
+  
   const getStatusColor = (status) => {
     if (status === 'Open') {
       return 'bg-green-500';
@@ -25,10 +27,11 @@ const TicketCard = ({ ticket, onAddToTaskStatus }) => {
 
   return (
     <div 
-      className="bg-white rounded-lg shadow-md p-5 hover:shadow-lg transition cursor-pointer border border-gray-200"
+      className="bg-gray-300 rounded-lg shadow-md p-5 hover:shadow-lg transition cursor-pointer border border-gray-200"
       onClick={() => onAddToTaskStatus(ticket)}
     >
-      {/* Title and Status Badge */}
+     
+     
       <div className="flex items-start justify-between mb-3">
         <h3 className="text-lg font-semibold text-gray-900 flex-1 pr-3">
           {ticket.title}
@@ -39,12 +42,14 @@ const TicketCard = ({ ticket, onAddToTaskStatus }) => {
         </div>
       </div>
 
-      {/* Description */}
+      
+      
       <p className="text-gray-600 text-sm mb-4 line-clamp-2">
         {ticket.description}
       </p>
 
-      {/* Bottom Info */}
+      
+      
       <div className="flex items-center justify-between text-sm">
         <div className="flex items-center space-x-4">
           <span className="text-gray-500">{ticket.id}</span>
