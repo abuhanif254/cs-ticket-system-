@@ -6,6 +6,8 @@ import CustomerTickets from './components/CustomerTickets.jsx'
 import { ticketsData } from './data/ticketsData.jsx'
 import ResolvedList from './components/ResolvedList.jsx'
 import TaskStatus from './components/TaskStatus.jsx';
+import Footer from './components/Footer.jsx'
+import { ToastContainer, toast } from 'react-toastify';
 import './App.css'
 
 function App() {
@@ -16,31 +18,31 @@ function App() {
   const [resolvedCount, setResolvedCount] = useState(0); 
 
   const handleAddToTaskStatus = (ticket) => {
-    const isAlreadyAdded = taskStatusList.some(task => task.id === ticket.id);
-    
-    if (!isAlreadyAdded) {
-      setTaskStatusList([...taskStatusList, ticket]);
-      setInProgressCount(inProgressCount + 1);
-      alert(`Added "${ticket.title}" to Task Status!`);
-    } else {
-      alert(`"${ticket.title}" is already in Task Status!`);
-    }
-  };
+  const isAlreadyAdded = taskStatusList.some(task => task.id === ticket.id);
+  
+  if (!isAlreadyAdded) {
+    setTaskStatusList([...taskStatusList, ticket]);
+    setInProgressCount(inProgressCount + 1);
+    toast.success(`Added "${ticket.title}" to Task Status!`);
+  } else {
+    toast.warning(`"${ticket.title}" is already in Task Status!`);  
+  }
+};
 
   const handleComplete = (task) => {
-    const updatedTaskStatus = taskStatusList.filter(t => t.id !== task.id);
-    setTaskStatusList(updatedTaskStatus);
-    
-    setResolvedTasks([...resolvedTasks, task]);
-    
-    const updatedTickets = tickets.filter(t => t.id !== task.id);
-    setTickets(updatedTickets);
-    
-    setInProgressCount(inProgressCount - 1);
-    setResolvedCount(resolvedCount + 1);
-    
-    alert(`"${task.title}" has been completed!`);
-  };
+  const updatedTaskStatus = taskStatusList.filter(t => t.id !== task.id);
+  setTaskStatusList(updatedTaskStatus);
+  
+  setResolvedTasks([...resolvedTasks, task]);
+  
+  const updatedTickets = tickets.filter(t => t.id !== task.id);
+  setTickets(updatedTickets);
+  
+  setInProgressCount(inProgressCount - 1);
+  setResolvedCount(resolvedCount + 1);
+  
+  toast.success(`"${task.title}" has been completed!`);
+};
 
   return (
     <div>
@@ -68,6 +70,8 @@ function App() {
           </div>
         </div>
       </div>
+      <Footer/>
+        <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 }
