@@ -1,16 +1,48 @@
-# React + Vite
+1) What is JSX, and why is it used?
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Answer : JSX is a syntax extension for JavaScript that lets  write HTML-like code in JavaScript.
 
-Currently, two official plugins are available:
+Why it's used:
+- Makes React components more readable and easier to write
+- Allows mixing HTML structure with JavaScript logic
+- Provides better error checking and helpful error messages
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+It gets compiled to regular JavaScript function calls that create React elements.
 
-## React Compiler
+2) What is the difference between State and Props?
 
-The React Compiler is not enabled on this template. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Answer : State:
+- Internal data managed within a component
+- Can be changed by the component itself
+- Like a component's personal memory
 
-## Expanding the ESLint configuration
+Props:
+- Data passed from parent to child component
+- Read-only (immutable) for the receiving component
+- Like function parameters
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Simple analogy: State = component's own variables, Props = attributes passed down from parent.
+
+3) What is the useState hook, and how does it work?
+
+Answer : useState is a React Hook that lets add state to functional components.
+
+4) How can you share state between components in React?
+
+Answer : 3 ways to share state:
+
+1. Lift up - Move state to common parent
+2. Context - For many components
+3. Libraries - Redux/Zustand for complex apps
+
+Simple cases: Use lifting. Many components: Use Context.
+
+5) How is event handling done in React?
+
+Answer : React event handling:
+
+Use camelCase: onClick not onclick
+
+Pass function, not string: onClick={handleClick}
+
+Event object is synthetic (wrapper for native event)
